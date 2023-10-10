@@ -2,6 +2,7 @@ package com.eyesonserver.model.maquina;
 
 import com.eyesonserver.model.metrica.Registro;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Servidor {
@@ -10,14 +11,32 @@ public class Servidor {
     private String local;
     private String ipv6;
     private String so;
+    private String macAdress;
     private List<Registro> registros;
 
-    public Servidor(Integer id, String nome, String local, String ipv6, String so, List<Registro> registros) {
+    public Servidor(Integer id, String nome, String local, String ipv6, String so, String macAdress) {
         this.id = id;
         this.nome = nome;
         this.local = local;
         this.ipv6 = ipv6;
         this.so = so;
+        this.macAdress = macAdress;
+        this.registros = new ArrayList<>();
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getMacAdress() {
+        return macAdress;
+    }
+
+    public void setMacAdress(String macAdress) {
+        this.macAdress = macAdress;
+    }
+
+    public void setRegistros(List<Registro> registros) {
         this.registros = registros;
     }
 

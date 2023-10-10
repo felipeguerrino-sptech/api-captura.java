@@ -5,6 +5,7 @@ public class Usuario {
     private Integer fkEmpresa;
     private String nome;
     private String email;
+    private String senha;
     private Integer cargo;
 
     public Usuario(Integer id, Integer fkEmpresa, String nome, String email, String senha, Integer cargo) {

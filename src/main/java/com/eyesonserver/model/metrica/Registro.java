@@ -6,33 +6,43 @@ import java.time.LocalDateTime;
 
 public class Registro {
     private Integer id;
-    private Medida medida;
+    private Integer fkMedida;
+    private Integer fkComponente;
     private String simbolo;
     private String valor;
     private LocalDateTime momento;
 
-    public Registro(Integer id, Medida medida, String simbolo, String valor, LocalDateTime momento) {
+    public Registro(Integer id, Integer fkMedida, Integer fkComponente, String simbolo, String valor, LocalDateTime momento) {
         this.id = id;
-        this.medida = medida;
+        this.fkMedida = fkMedida;
+        this.fkComponente = fkComponente;
         this.simbolo = simbolo;
         this.valor = valor;
         this.momento = momento;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public Medida getMedida() {
-        return medida;
+    public Integer getFkMedida() {
+        return fkMedida;
     }
 
-    public void setMedida(Medida medida) {
-        this.medida = medida;
+    public void setFkMedida(Integer fkMedida) {
+        this.fkMedida = fkMedida;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getFkComponente() {
+        return fkComponente;
+    }
+
+    public void setFkComponente(Integer fkComponente) {
+        this.fkComponente = fkComponente;
     }
 
     public String getSimbolo() {

@@ -9,6 +9,13 @@ import java.sql.SQLException;
 public class ServidorRowMapper implements RowMapper<Servidor> {
     @Override
     public Servidor mapRow(ResultSet rs, int i) throws SQLException {
-        return null;
+        return new Servidor(
+                rs.getInt("id_servidor"),
+                rs.getString("nome_servidor"),
+                rs.getString("local_servidor"),
+                rs.getString("ipv6_servidor"),
+                rs.getString("so_servidor"),
+                rs.getString("mac_address")
+        );
     }
 }

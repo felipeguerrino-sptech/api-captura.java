@@ -13,11 +13,10 @@ public class UsuarioDAO {
     private JdbcTemplate db = conexao.getConexaoDoBanco();
 
     public Usuario getUsuarioPorEmailSenha(String email, String senha) {
-        List<Usuario> queryUsuario = db.query("SELECT * FROM Usuario WHERE email = %s".formatted(email), new UsuarioRowMapper());
-        List<String> querySenha = db.query("SELECT senha FROM Login WHERE fk_usuario = %d".formatted(queryUsuario.get(0).getId()),
-                new BeanPropertyRowMapper<>(String.class));
+        Usuario usuario = db.queryForObject("SELECT * FROM Usuario WHERE email = ?", new UsuarioRowMapper(), email);
+        List<String> querySenha = db.query("SELECT senha FROM Login WHERE fk_usuario = ?",
+                new BeanPropertyRowMapper<>(String.class), usuario.getId());
 
-        Usuario usuario = queryUsuario.get(0);
         if(email.equals(usuario.getEmail()) && senha.equals(querySenha.get(0))) {
             usuario.setSenha(senha);
             return usuario;
