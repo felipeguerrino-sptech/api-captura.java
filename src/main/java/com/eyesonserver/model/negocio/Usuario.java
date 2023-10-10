@@ -2,13 +2,14 @@ package com.eyesonserver.model.negocio;
 
 public class Usuario {
     private Integer id;
+    private Integer fkEmpresa;
     private String nome;
     private String email;
-    private String senha;
     private Integer cargo;
 
-    public Usuario(Integer id, String nome, String email, String senha, Integer cargo) {
+    public Usuario(Integer id, Integer fkEmpresa, String nome, String email, String senha, Integer cargo) {
         this.id = id;
+        this.fkEmpresa = fkEmpresa;
         this.nome = nome;
         this.email = email;
         this.senha = senha;

@@ -1,42 +1,38 @@
 package com.eyesonserver.model.metrica;
 
+import com.eyesonserver.model.maquina.Componente;
+
 import java.time.LocalDateTime;
 
 public class Registro {
     private Integer id;
-    private String nomeComponente;
-    private String nomeMedida;
+    private Medida medida;
     private String simbolo;
-    private String valorRegistro;
-    private LocalDateTime momentoRegistro;
+    private String valor;
+    private LocalDateTime momento;
 
-    public Registro(Integer id, String nomeComponente, String nomeMedida, String simbolo, String valorRegistro, LocalDateTime momentoRegistro) {
+    public Registro(Integer id, Medida medida, String simbolo, String valor, LocalDateTime momento) {
         this.id = id;
-        this.nomeComponente = nomeComponente;
-        this.nomeMedida = nomeMedida;
+        this.medida = medida;
         this.simbolo = simbolo;
-        this.valorRegistro = valorRegistro;
-        this.momentoRegistro = momentoRegistro;
+        this.valor = valor;
+        this.momento = momento;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Medida getMedida() {
+        return medida;
+    }
+
+    public void setMedida(Medida medida) {
+        this.medida = medida;
     }
 
     public Integer getId() {
         return id;
-    }
-
-    public String getNomeComponente() {
-        return nomeComponente;
-    }
-
-    public void setNomeComponente(String nomeComponente) {
-        this.nomeComponente = nomeComponente;
-    }
-
-    public String getNomeMedida() {
-        return nomeMedida;
-    }
-
-    public void setNomeMedida(String nomeMedida) {
-        this.nomeMedida = nomeMedida;
     }
 
     public String getSimbolo() {
@@ -47,19 +43,19 @@ public class Registro {
         this.simbolo = simbolo;
     }
 
-    public String getValorRegistro() {
-        return valorRegistro;
+    public String getValor() {
+        return valor;
     }
 
-    public void setValorRegistro(String valorRegistro) {
-        this.valorRegistro = valorRegistro;
+    public void setValor(String valor) {
+        this.valor = valor;
     }
 
-    public LocalDateTime getMomentoRegistro() {
-        return momentoRegistro;
+    public LocalDateTime getMomento() {
+        return momento;
     }
 
-    public void setMomentoRegistro(LocalDateTime momentoRegistro) {
-        this.momentoRegistro = momentoRegistro;
+    public void setMomento(LocalDateTime momento) {
+        this.momento = momento;
     }
 }
