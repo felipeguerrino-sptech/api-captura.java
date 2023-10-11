@@ -1,7 +1,5 @@
 package com.eyesonserver.model.metrica;
 
-import com.eyesonserver.model.maquina.Componente;
-
 import java.time.LocalDateTime;
 
 public class Registro {
