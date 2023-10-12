@@ -10,12 +10,11 @@ public class RegistroDAO {
     private Conexao conexao = new Conexao();
     private JdbcTemplate db = conexao.getConexaoDoBanco();
 
-    public void insertRegistro(Registro registro, Integer fkServidor) {
-        db.update("INSERT INTO Registro VALUES (?, ?, ?, ?, ?, ?)",
-                registro.getId(),
-                fkServidor,
+    public void insertRegistro(Registro registro) {
+        db.update("INSERT INTO Registro VALUES (null, ?, ?, ?, ?, ?)",
                 registro.getFkComponente(),
                 registro.getFkMedida(),
+                registro.getFkServidor(),
                 registro.getValor(),
                 registro.getMomento()
                 );

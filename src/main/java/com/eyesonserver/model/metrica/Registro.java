@@ -6,15 +6,14 @@ public class Registro {
     private Integer id;
     private Integer fkMedida;
     private Integer fkComponente;
-    private String simbolo;
+    private String fkServidor;
     private String valor;
     private LocalDateTime momento;
 
-    public Registro(Integer id, Integer fkMedida, Integer fkComponente, String simbolo, String valor, LocalDateTime momento) {
-        this.id = id;
+    public Registro(Integer fkMedida, Integer fkComponente, String fkServidor, String valor, LocalDateTime momento) {
         this.fkMedida = fkMedida;
         this.fkComponente = fkComponente;
-        this.simbolo = simbolo;
+        this.fkServidor = fkServidor;
         this.valor = valor;
         this.momento = momento;
     }
@@ -43,12 +42,12 @@ public class Registro {
         this.fkComponente = fkComponente;
     }
 
-    public String getSimbolo() {
-        return simbolo;
+    public String getFkServidor() {
+        return fkServidor;
     }
 
-    public void setSimbolo(String simbolo) {
-        this.simbolo = simbolo;
+    public void setFkServidor(String simbolo) {
+        this.fkServidor = simbolo;
     }
 
     public String getValor() {

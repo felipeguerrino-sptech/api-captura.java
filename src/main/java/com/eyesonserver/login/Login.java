@@ -1,5 +1,7 @@
 package com.eyesonserver.login;
 
+import com.eyesonserver.dao.negocio.UsuarioDAO;
+
 public class Login {
     //classe responsavel pelo login
 
