@@ -1,10 +1,12 @@
 package com.eyesonserver.terminal;
 
+import com.eyesonserver.dao.maquina.ProcessoDAO;
 import com.eyesonserver.dao.maquina.ServidorDAO;
 import com.eyesonserver.dao.metrica.RegistroDAO;
 import com.eyesonserver.dao.negocio.UsuarioDAO;
 import com.eyesonserver.database.Conexao;
 import com.eyesonserver.login.Login;
+import com.eyesonserver.model.maquina.Processo;
 import com.eyesonserver.model.maquina.Servidor;
 import com.eyesonserver.model.metrica.Registro;
 import com.eyesonserver.model.negocio.Usuario;
@@ -12,12 +14,14 @@ import com.github.britooo.looca.api.core.Looca;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Scanner;
 
 public class Terminal {
@@ -195,7 +199,8 @@ public class Terminal {
             }
 
             Looca looca = new Looca();
-            RegistroDAO registro = new RegistroDAO();
+            RegistroDAO registroDAO = new RegistroDAO();
+            ProcessoDAO processoDAO = new ProcessoDAO();
 
             LocalDateTime horaAtual = LocalDateTime.now();
             DateTimeFormatter formatarHora = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -207,6 +212,7 @@ public class Terminal {
             String redeBytesRecebidos = "";
             String discoPorcentagemUso = "";
             String memoriaPorcentagemUso = "";
+            List<Processo> processos = new ArrayList<>();
 
 
             // Capturando a frequencia da cpu:
@@ -220,6 +226,8 @@ public class Terminal {
 
             // Capturando a rede -- Bytes Recebidos:
             redeBytesRecebidos = String.valueOf(looca.getRede().getGrupoDeInterfaces().getInterfaces().get(0).getBytesRecebidos());
+
+
 
             // Capturando a porcentagem de uso do disco:
             long discoTotal = looca.getGrupoDeDiscos().getVolumes().get(0).getTotal() / 1000000000;
@@ -241,15 +249,14 @@ public class Terminal {
             Registro redeByteEnviadosRegistro = new Registro(6, 4, "6", redeBytesEnviados, horaAtual);
             Registro redeByteRecebidosRegistro = new Registro(7, 4, "6", redeBytesRecebidos, horaAtual);
 
-
             // Insert no banco de dados:
-            registro.insertRegistro(memoriaPorcentagemUsoRegistro);
-            registro.insertRegistro(discoPorcentagemUsoRegistro);
-            registro.insertRegistro(cpuFrequenciaRegistro);
-            registro.insertRegistro(cpuPorcentagemUsoRegistro);
-            registro.insertRegistro(redeByteEnviadosRegistro);
-            registro.insertRegistro(redeByteRecebidosRegistro);
-
+            registroDAO.insertRegistro(memoriaPorcentagemUsoRegistro);
+            registroDAO.insertRegistro(discoPorcentagemUsoRegistro);
+            registroDAO.insertRegistro(cpuFrequenciaRegistro);
+            registroDAO.insertRegistro(cpuPorcentagemUsoRegistro);
+            registroDAO.insertRegistro(redeByteEnviadosRegistro);
+            registroDAO.insertRegistro(redeByteRecebidosRegistro);
+            processoDAO.insertProcessos(processos, 6);
 
         }
     };
