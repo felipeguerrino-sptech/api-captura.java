@@ -21,13 +21,19 @@ public class ServidorDAO {
     }
 
     public void insertServidor(Servidor servidor, Integer fkEmpresa) {
+        String descricao = "Esse servidor foi registrado automaticamente.";
+        String componentes = "0";
+
         db.update("INSERT INTO Servidor VALUES (?, ?, ?, ?, ?, ?, ?)",
                 servidor.getId(),
                 fkEmpresa,
                 servidor.getNome(),
                 servidor.getLocal(),
                 servidor.getIpv6(),
+                servidor.getMacAdress(),
                 servidor.getSo(),
-                servidor.getMacAdress());
+                descricao,
+                componentes
+        );
     }
 }

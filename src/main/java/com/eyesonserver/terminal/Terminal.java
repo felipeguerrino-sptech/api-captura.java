@@ -7,6 +7,7 @@ import com.eyesonserver.database.Conexao;
 import com.eyesonserver.login.Login;
 import com.eyesonserver.model.maquina.Servidor;
 import com.eyesonserver.model.metrica.Registro;
+import com.eyesonserver.model.negocio.Usuario;
 import com.github.britooo.looca.api.core.Looca;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -57,7 +58,7 @@ public class Terminal {
             new Thread(capturaDeDados).start();
             Looca looca = new Looca();
 
-            System.out.println("\n\n\nOlá %s".formatted(user.getNomePorEmailSenha(email)));
+            System.out.printf("\n\n\nOlá %s", login);
 
             Looca Sistema = new Looca();
             System.out.print("Sistema operacional: ");
@@ -184,75 +185,72 @@ public class Terminal {
     }
 
 
-    public static Runnable capturaDeDados = new Runnable() {
-        @Override
-        public void run() {
+    public static Runnable capturaDeDados = () -> {
 
-            for (; escolhadoDoMenu.getEscolhaDoMenu() != 6; ) {
-                try {
-                    Thread.sleep(8000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-
-                Looca looca = new Looca();
-                RegistroDAO registro = new RegistroDAO();
-
-                LocalDateTime horaAtual = LocalDateTime.now();
-                DateTimeFormatter formatarHora = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-                formatarHora.format(horaAtual);
-
-                String cpuFrequencia = "";
-                String cpuPorcentagemUso = "";
-                String redeBytesEnviados = "";
-                String redeBytesRecebidos = "";
-                String discoPorcentagemUso = "";
-                String memoriaPorcentagemUso = "";
-
-
-                // Capturando a frequencia da cpu:
-                cpuFrequencia = String.valueOf(looca.getProcessador().getFrequencia() / 1000000000);
-
-                // Capturando a porcentagem de uso da cpu:
-                cpuPorcentagemUso = String.valueOf(looca.getProcessador().getUso().shortValue());
-
-                // Capturando a rede -- Bytes enviados:
-                redeBytesEnviados = String.valueOf(looca.getRede().getGrupoDeInterfaces().getInterfaces().get(0).getBytesEnviados());
-
-                // Capturando a rede -- Bytes Recebidos:
-                redeBytesRecebidos = String.valueOf(looca.getRede().getGrupoDeInterfaces().getInterfaces().get(0).getBytesRecebidos());
-
-                // Capturando a porcentagem de uso do disco:
-                long discoTotal = looca.getGrupoDeDiscos().getVolumes().get(0).getTotal() / 1000000000;
-                long discoDisponivel = looca.getGrupoDeDiscos().getVolumes().get(0).getDisponivel() / 1000000000;
-                discoPorcentagemUso = String.valueOf((discoTotal - discoDisponivel) * 100 / discoTotal);
-
-
-                // Capturando a porcentagem de uso da memória:
-                long memoriaTotal = looca.getMemoria().getTotal() / 100000000;
-                long memoriaEmUso = looca.getMemoria().getEmUso() / 100000000;
-                memoriaPorcentagemUso = String.valueOf(memoriaEmUso * 100 / memoriaTotal);
-
-
-                // Criando registros:
-                Registro memoriaPorcentagemUsoRegistro = new Registro(2, 2, "6", memoriaPorcentagemUso, horaAtual);
-                Registro discoPorcentagemUsoRegistro = new Registro(2, 3, "6", discoPorcentagemUso, horaAtual);
-                Registro cpuFrequenciaRegistro = new Registro(4, 1, "6", cpuFrequencia, horaAtual);
-                Registro cpuPorcentagemUsoRegistro = new Registro(2, 1, "6", cpuPorcentagemUso, horaAtual);
-                Registro redeByteEnviadosRegistro = new Registro(6, 4, "6", redeBytesEnviados, horaAtual);
-                Registro redeByteRecebidosRegistro = new Registro(7, 4, "6", redeBytesRecebidos, horaAtual);
-
-
-                // Insert no banco de dados:
-                registro.insertRegistro(memoriaPorcentagemUsoRegistro);
-                registro.insertRegistro(discoPorcentagemUsoRegistro);
-                registro.insertRegistro(cpuFrequenciaRegistro);
-                registro.insertRegistro(cpuPorcentagemUsoRegistro);
-                registro.insertRegistro(redeByteEnviadosRegistro);
-                registro.insertRegistro(redeByteRecebidosRegistro);
-
-
+        while (escolhadoDoMenu.getEscolhaDoMenu() != 6) {
+            try {
+                Thread.sleep(8000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
+
+            Looca looca = new Looca();
+            RegistroDAO registro = new RegistroDAO();
+
+            LocalDateTime horaAtual = LocalDateTime.now();
+            DateTimeFormatter formatarHora = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            formatarHora.format(horaAtual);
+
+            String cpuFrequencia = "";
+            String cpuPorcentagemUso = "";
+            String redeBytesEnviados = "";
+            String redeBytesRecebidos = "";
+            String discoPorcentagemUso = "";
+            String memoriaPorcentagemUso = "";
+
+
+            // Capturando a frequencia da cpu:
+            cpuFrequencia = String.valueOf(looca.getProcessador().getFrequencia() / 1000000000);
+
+            // Capturando a porcentagem de uso da cpu:
+            cpuPorcentagemUso = String.valueOf(looca.getProcessador().getUso().shortValue());
+
+            // Capturando a rede -- Bytes enviados:
+            redeBytesEnviados = String.valueOf(looca.getRede().getGrupoDeInterfaces().getInterfaces().get(0).getBytesEnviados());
+
+            // Capturando a rede -- Bytes Recebidos:
+            redeBytesRecebidos = String.valueOf(looca.getRede().getGrupoDeInterfaces().getInterfaces().get(0).getBytesRecebidos());
+
+            // Capturando a porcentagem de uso do disco:
+            long discoTotal = looca.getGrupoDeDiscos().getVolumes().get(0).getTotal() / 1000000000;
+            long discoDisponivel = looca.getGrupoDeDiscos().getVolumes().get(0).getDisponivel() / 1000000000;
+            discoPorcentagemUso = String.valueOf((discoTotal - discoDisponivel) * 100 / discoTotal);
+
+
+            // Capturando a porcentagem de uso da memória:
+            long memoriaTotal = looca.getMemoria().getTotal() / 100000000;
+            long memoriaEmUso = looca.getMemoria().getEmUso() / 100000000;
+            memoriaPorcentagemUso = String.valueOf(memoriaEmUso * 100 / memoriaTotal);
+
+
+            // Criando registros:
+            Registro memoriaPorcentagemUsoRegistro = new Registro(2, 2, "6", memoriaPorcentagemUso, horaAtual);
+            Registro discoPorcentagemUsoRegistro = new Registro(2, 3, "6", discoPorcentagemUso, horaAtual);
+            Registro cpuFrequenciaRegistro = new Registro(4, 1, "6", cpuFrequencia, horaAtual);
+            Registro cpuPorcentagemUsoRegistro = new Registro(2, 1, "6", cpuPorcentagemUso, horaAtual);
+            Registro redeByteEnviadosRegistro = new Registro(6, 4, "6", redeBytesEnviados, horaAtual);
+            Registro redeByteRecebidosRegistro = new Registro(7, 4, "6", redeBytesRecebidos, horaAtual);
+
+
+            // Insert no banco de dados:
+            registro.insertRegistro(memoriaPorcentagemUsoRegistro);
+            registro.insertRegistro(discoPorcentagemUsoRegistro);
+            registro.insertRegistro(cpuFrequenciaRegistro);
+            registro.insertRegistro(cpuPorcentagemUsoRegistro);
+            registro.insertRegistro(redeByteEnviadosRegistro);
+            registro.insertRegistro(redeByteRecebidosRegistro);
+
+
         }
     };
 
