@@ -7,6 +7,7 @@ import com.eyesonserver.database.Conexao;
 import com.eyesonserver.login.Login;
 import com.eyesonserver.model.maquina.Servidor;
 import com.eyesonserver.model.metrica.Registro;
+import com.eyesonserver.model.negocio.Usuario;
 import com.github.britooo.looca.api.core.Looca;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -57,7 +58,7 @@ public class Terminal {
             new Thread(capturaDeDados).start();
             Looca looca = new Looca();
 
-            System.out.println("\n\n\nOlá %s".formatted(user.getNomePorEmailSenha(email)));
+            System.out.printf("\n\n\nOlá %s", login);
 
             Looca Sistema = new Looca();
             System.out.print("Sistema operacional: ");
