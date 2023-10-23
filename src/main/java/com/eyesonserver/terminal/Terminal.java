@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+
+import com.github.britooo.looca.api.group.processos.ProcessoGrupo;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.SQLOutput;
@@ -249,6 +251,8 @@ public class Terminal {
             Registro redeByteEnviadosRegistro = new Registro(6, 4, "6", redeBytesEnviados, horaAtual);
             Registro redeByteRecebidosRegistro = new Registro(7, 4, "6", redeBytesRecebidos, horaAtual);
 
+            List<com.github.britooo.looca.api.group.processos.Processo> processosLooca = looca.getGrupoDeProcessos().getProcessos();
+
             // Insert no banco de dados:
             registroDAO.insertRegistro(memoriaPorcentagemUsoRegistro);
             registroDAO.insertRegistro(discoPorcentagemUsoRegistro);
@@ -256,6 +260,11 @@ public class Terminal {
             registroDAO.insertRegistro(cpuPorcentagemUsoRegistro);
             registroDAO.insertRegistro(redeByteEnviadosRegistro);
             registroDAO.insertRegistro(redeByteRecebidosRegistro);
+
+            for (com.github.britooo.looca.api.group.processos.Processo processo : processosLooca) {
+                processos.add(new Processo(0, processo.getPid(), processo.getNome(), processo.getUsoMemoria(), processo.getUsoCpu())
+                );
+            }
             processoDAO.insertProcessos(processos, 6);
 
         }
