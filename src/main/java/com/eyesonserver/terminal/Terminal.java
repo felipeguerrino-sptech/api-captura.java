@@ -77,8 +77,9 @@ public class Terminal {
                         2. Memoria
                         3. Rede
                         4. CPU
-                        5. Todos
-                        6. Sair
+                        5. Todos os Componentes
+                        6. Processos
+                        7. Sair
                         """);
                 System.out.print("Escolha: ");
                 escolhadoDoMenu.setEscolhaDoMenu(leitor.nextInt());
@@ -155,11 +156,25 @@ public class Terminal {
 
 
 
-                } else if (escolhadoDoMenu.getEscolhaDoMenu().equals(6)) {
+                }
+                else if (escolhadoDoMenu.getEscolhaDoMenu().equals(6)) {
+                    System.out.println("Nome Processo; PID; % Uso CPU; % Uso RAM; MB utilizados; VRAM Utilizada");
+                    ProcessoGrupo prcs = looca.getGrupoDeProcessos();
+                    for (com.github.britooo.looca.api.group.processos.Processo processo : prcs.getProcessos()) {
+                        System.out.printf("%s; %d; %.1f; %.1f; %.1f\n",
+                                processo.getNome(),
+                                processo.getPid(),
+                                processo.getUsoCpu(),
+                                processo.getUsoMemoria(),
+                                processo.getBytesUtilizados() / Math.pow(10, 6),
+                                processo.getMemoriaVirtualUtilizada() / Math.pow(10, 6)
+                        );
+                    }
+                }
+                else if (escolhadoDoMenu.getEscolhaDoMenu().equals(7)) {
                     System.out.println("Até mais!");
                     Thread.currentThread().stop();
-
-                } else {
+                }else {
                     System.out.println("Escolha inválida!");
                 }
 
@@ -171,7 +186,7 @@ public class Terminal {
 
 
                 System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-            } while (escolhadoDoMenu.getEscolhaDoMenu() != 6);
+            } while (escolhadoDoMenu.getEscolhaDoMenu() != 7);
 
         } else {
             System.out.println("""
@@ -193,7 +208,7 @@ public class Terminal {
 
     public static Runnable capturaDeDados = () -> {
 
-        while (escolhadoDoMenu.getEscolhaDoMenu() != 6) {
+        while (escolhadoDoMenu.getEscolhaDoMenu() != 7) {
             try {
                 Thread.sleep(8000);
             } catch (InterruptedException e) {
