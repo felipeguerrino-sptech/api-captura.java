@@ -5,17 +5,16 @@ import com.eyesonserver.dao.maquina.ServidorDAO;
 import com.eyesonserver.dao.metrica.RegistroDAO;
 import com.eyesonserver.dao.negocio.UsuarioDAO;
 import com.eyesonserver.database.Conexao;
-import com.eyesonserver.login.Login;
 import com.eyesonserver.model.maquina.Processo;
 import com.eyesonserver.model.maquina.Servidor;
 import com.eyesonserver.model.metrica.Registro;
 import com.eyesonserver.model.negocio.Usuario;
+import com.eyesonserver.terminal.EscolhadoDoMenu;
 import com.github.britooo.looca.api.core.Looca;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 import com.github.britooo.looca.api.group.processos.ProcessoGrupo;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,8 +22,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Scanner;
 
 public class Terminal {
     //Aqui sera desenvolvida a interface de terminal da aplicacao
@@ -33,7 +30,6 @@ public class Terminal {
     public static void main(String[] args) {
 
         Scanner leitor = new Scanner(System.in);
-        Boolean login;
         String email;
         String senha;
 
@@ -57,14 +53,14 @@ public class Terminal {
         System.out.print("Senha: ");
         senha = leitor.nextLine();
 
-        UsuarioDAO user = new UsuarioDAO();
-        login = user.getUsuarioPorEmailSenha(email, senha);
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        Usuario login = usuarioDAO.getUsuarioPorEmailSenha(email, senha);
 
-        if (login){
+        if (Objects.nonNull(login)){
             new Thread(capturaDeDados).start();
             Looca looca = new Looca();
 
-            System.out.printf("\n\n\nOlá %s", login);
+            System.out.printf("\n\n\nOlá %s |", login.getNome());
 
             Looca Sistema = new Looca();
             System.out.print("Sistema operacional: ");
