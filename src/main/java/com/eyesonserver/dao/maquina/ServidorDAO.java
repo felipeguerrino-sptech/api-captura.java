@@ -1,39 +1,49 @@
 package com.eyesonserver.dao.maquina;
 
-import com.eyesonserver.dao.metrica.RegistroDAO;
 import com.eyesonserver.database.Conexao;
 import com.eyesonserver.mapper.maquina.ServidorRowMapper;
 import com.eyesonserver.model.maquina.Servidor;
-import com.eyesonserver.model.metrica.Registro;
+import com.eyesonserver.utils.InfoServidor;
+import com.github.britooo.looca.api.core.Looca;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-
-import java.util.List;
 
 public class ServidorDAO {
     private Conexao conexao = new Conexao();
+
+
     private JdbcTemplate db = conexao.getConexaoDoBanco();
+    private Looca looca = new Looca ();
 
     public Servidor getServidorPorMacAddress(String macAddress) {
-        RegistroDAO registroDAO = new RegistroDAO();
 
-        return db.queryForObject("SELECT * FROM Servidor WHERE mac_address = ?", new ServidorRowMapper(), macAddress);
+        try {
+            return db.queryForObject("SELECT * FROM Servidor WHERE mac_address = ?", new ServidorRowMapper(), macAddress);
+        } catch (EmptyResultDataAccessException e) {
+            System.out.println ("Servidor não registrado!");
+            return null;
+        }
 
     }
 
-    public void insertServidor(Servidor servidor, Integer fkEmpresa) {
-        String descricao = "Esse servidor foi registrado automaticamente.";
-        String componentes = "0";
+    public Integer getIdComponenteServidorPorIdServidor(Integer idServidor) {
 
-        db.update("INSERT INTO Servidor VALUES (?, ?, ?, ?, ?, ?, ?)",
-                servidor.getId(),
+        return db.queryForObject("SELECT id_componente_servidor FROM Componente_Servidor WHERE fk_servidor = ?", new BeanPropertyRowMapper<Integer>(Integer.class), idServidor);
+    }
+
+    public void insertServidor(Integer fkEmpresa, String local) {
+        String descricao = "Esse servidor foi registrado automaticamente.";
+
+        db.update("INSERT INTO Servidor VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                0,
                 fkEmpresa,
-                servidor.getNome(),
-                servidor.getLocal(),
-                servidor.getIpv6(),
-                servidor.getMacAdress(),
-                servidor.getSo(),
-                descricao,
-                componentes
+                InfoServidor.getNomeServidor (),
+                local,
+                InfoServidor.getIpv6Servidor(),
+                looca.getRede ().getGrupoDeInterfaces ().getInterfaces ().get (0).getEnderecoMac (),
+                looca.getSistema ().getSistemaOperacional (),
+                descricao
         );
     }
 }

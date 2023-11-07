@@ -4,16 +4,12 @@ import java.time.LocalDateTime;
 
 public class Registro {
     private Integer id;
-    private Integer fkMedida;
-    private Integer fkComponente;
-    private String fkServidor;
+    private Integer fkComponenteServidor;
     private String valor;
     private LocalDateTime momento;
 
-    public Registro(Integer fkMedida, Integer fkComponente, String fkServidor, String valor, LocalDateTime momento) {
-        this.fkMedida = fkMedida;
-        this.fkComponente = fkComponente;
-        this.fkServidor = fkServidor;
+    public Registro(Integer fkComponenteServidor, String valor, LocalDateTime momento) {
+        this.fkComponenteServidor = fkComponenteServidor;
         this.valor = valor;
         this.momento = momento;
     }
@@ -26,28 +22,14 @@ public class Registro {
         this.id = id;
     }
 
-    public Integer getFkMedida() {
-        return fkMedida;
+
+
+    public Integer getFkComponenteServidor() {
+        return fkComponenteServidor;
     }
 
-    public void setFkMedida(Integer fkMedida) {
-        this.fkMedida = fkMedida;
-    }
-
-    public Integer getFkComponente() {
-        return fkComponente;
-    }
-
-    public void setFkComponente(Integer fkComponente) {
-        this.fkComponente = fkComponente;
-    }
-
-    public String getFkServidor() {
-        return fkServidor;
-    }
-
-    public void setFkServidor(String simbolo) {
-        this.fkServidor = simbolo;
+    public void setFkComponenteServidor(Integer fkComponenteServidor) {
+        this.fkComponenteServidor = fkComponenteServidor;
     }
 
     public String getValor() {

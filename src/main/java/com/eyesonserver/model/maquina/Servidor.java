@@ -12,7 +12,6 @@ public class Servidor {
     private String ipv6;
     private String so;
     private String macAdress;
-    private List<Registro> registros;
 
     public Servidor(Integer id, String nome, String local, String ipv6, String so, String macAdress) {
         this.id = id;
@@ -21,7 +20,6 @@ public class Servidor {
         this.ipv6 = ipv6;
         this.so = so;
         this.macAdress = macAdress;
-        this.registros = new ArrayList<>();
     }
 
     public void setId(Integer id) {
@@ -36,17 +34,10 @@ public class Servidor {
         this.macAdress = macAdress;
     }
 
-    public void setRegistros(List<Registro> registros) {
-        this.registros = registros;
-    }
-
     public Integer getId() {
         return id;
     }
 
-    public List<Registro> getRegistros() {
-        return registros;
-    }
 
     public String getNome() {
         return nome;
@@ -78,5 +69,16 @@ public class Servidor {
 
     public void setSo(String so) {
         this.so = so;
+    }
+
+    @Override
+    public String toString () {
+        return """
+                
+                Nome: %s
+                Local: %s
+                IPV6: %s
+                MacAddress: %s
+                """.formatted (nome, local, ipv6, macAdress);
     }
 }
